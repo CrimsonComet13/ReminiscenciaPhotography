@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda - Reminiscencia Photography</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-dark: #0a0a0a;
+      --secondary-dark: #1a1a1a;
+      --tertiary-dark: #2a2a2a;
+      --light-bg: #fafafa;
+      --accent-gold: #d4af37;
+      --accent-gold-hover: #b8941f;
+      --accent-purple: #8b5a96;
+      --text-muted: #6c757d;
+      --border-light: rgba(255,255,255,0.1);
+      --glass-bg: rgba(255,255,255,0.05);
+      --shadow-soft: 0 20px 60px rgba(0,0,0,0.1);
+      --shadow-hover: 0 30px 80px rgba(0,0,0,0.15);
+    }
+    
+    body {
+      background: linear-gradient(135deg, var(--light-bg) 0%, #f0f2f5 100%);
+      color: var(--secondary-dark);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+      padding-bottom: 3rem;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+    }
+    
+    .navbar {
+      background: rgba(10, 10, 10, 0.95) !important;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      position: relative; /* Añadido */
+      z-index: 1050; /* Añadido: z-index alto para asegurar que esté sobre el hero */
+    }
+    
+    /* SOLUCIÓN: Asegurar que el menú desplegable tenga un z-index más alto que el hero */
+    .dropdown-menu {
+      z-index: 1060 !important; /* Más alto que el navbar */
+    }
+    
+    .hero {
+      position: relative; /* Añadido */
+      z-index: 1; /* Añadido: asegurar que esté detrás del menú desplegable */
+    }
+    
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, var(--accent-gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 0.5px;
+    }
+    
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .user-info {
+      color: white;
+      font-size: 0.9rem;
+      text-align: right;
+    }
+    
+    .cart-icon {
+      position: relative;
+      font-size: 1.5rem;
+      color: var(--accent-gold);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .cart-icon:hover {
+      transform: scale(1.1);
+    }
+    
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--accent-gold);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+    
+    .hero {
+      background: linear-gradient(135deg, rgba(10, 10, 10, 0.8) 0%, rgba(139, 90, 150, 0.4) 100%),
+                  url('https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=2070&q=80');
+      background-size: cover;
+      background-position: center;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      margin-bottom: 4rem;
+    }
+    
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+    }
+    
+    .hero h1 {
+      font-size: 3.5rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .hero p {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 1rem auto;
+      font-size: 1.2rem;
+    }
+    
+    .events-section, .store-section {
+      padding: 5rem 0;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: var(--accent-gold);
+      border-radius: 2px;
+    }
+    
+    .event-card, .product-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.4s ease;
+      margin-bottom: 2rem;
+      border: none;
+    }
+    
+    .event-card:hover, .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-hover);
+    }
+    
+    .event-image, .product-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .event-card:hover .event-image, .product-card:hover .product-image {
+      transform: scale(1.05);
+    }
+    
+    .event-info, .product-info {
+      padding: 1.5rem;
+    }
+    
+    .product-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+    }
+    
+    .event-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--accent-gold);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      z-index: 10;
+    }
+    
+    .add-to-cart {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-hover));
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .add-to-cart:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+    }
+    
+    .cart-sidebar {
+      position: fixed;
+      right: -450px;
+      top: 0;
+      width: 450px;
+      height: 100vh;
+      background: white;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+      transition: right 0.4s ease;
+      z-index: 1050;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .cart-sidebar.open {
+      right: 0;
+    }
+    
+    .cart-header {
+      padding: 1.5rem;
+      background: var(--primary-dark);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .cart-items {
+      padding: 1rem;
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+    
+    .cart-item {
+      display: flex;
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      align-items: center;
+    }
+    
+    .cart-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-right: 1rem;
+    }
+    
+    .cart-total {
+      padding: 1.5rem;
+      background: var(--light-bg);
+      border-top: 1px solid #eee;
+    }
+    
+    .checkout-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-hover));
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .checkout-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+    }
+    
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1040;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .cart-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .empty-cart {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--text-muted);
+    }
+    
+    .modal-header {
+      background-color: var(--primary-dark);
+      color: white;
+    }
+    
+    .modal-header .btn-close {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
+    
+    .form-control {
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ddd;
+    }
+    
+    .form-control:focus {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+    }
+    
+    .form-label {
+      font-weight: 500;
+    }
+    
+    .card-icons img {
+      width: 40px;
+      margin-right: 10px;
+    }
+    
+    .event-filter {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    .filter-btn {
+      margin: 0.25rem;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .filter-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    
+    .filter-btn.active {
+      background: var(--accent-gold);
+      border-color: var(--accent-gold);
+      color: white;
+      box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+    }
+    
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      min-width: 300px;
+      border-radius: 10px;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.3s ease;
+    }
+    
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .user-stats {
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .payment-method {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent !important;
+    }
+    
+    .payment-method:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .payment-method.border-primary {
+      border: 2px solid #0d6efd !important;
+    }
+    
+    /* Confirmación de Pago */
+    .confirmation-message {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 10, 10, 0.95);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s ease;
+    }
+    
+    .confirmation-message.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .confirmation-content {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+      transform: translateY(50px);
+      transition: transform 0.5s ease;
+    }
+    
+    .confirmation-message.show .confirmation-content {
+      transform: translateY(0);
+    }
+    
+    .confirmation-icon {
+      font-size: 5rem;
+      color: #28a745;
+      margin-bottom: 1.5rem;
+      animation: pulse 1s infinite;
+    }
+    
+    .confirmation-buttons {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .hero-stat {
+      text-align: center;
+      background: rgba(255,255,255,0.1);
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .hero-stat h4 {
+      margin-bottom: 0.5rem;
+      font-size: 1.8rem;
+    }
+    
+    .hero-stat small {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="index.php">Reminiscencia Photography</a>
+      
+      <div class="user-section">
+        <!-- User Info -->
+        <div class="user-info" id="user-info">
+          <span id="user-name">Invitado</span>
+          <br>
+          <small id="user-email">No autenticado</small>
+        </div>
+        
+        <!-- User Actions -->
+        <div class="dropdown">
+          <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-person"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#" onclick="showLogin()"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showRegister()"><i class="bi bi-person-plus"></i> Registrarse</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#" onclick="showProfile()"><i class="bi bi-person"></i> Mi Perfil</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showOrders()"><i class="bi bi-bag"></i> Mis Pedidos</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+          </ul>
+        </div>
+        
+        <!-- Cart Icon -->
+        <div class="cart-icon" id="cart-icon">
+          <i class="bi bi-bag"></i>
+          <span class="cart-count" id="cart-count">0</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Tienda de Fotografías</h1>
+      <p class="lead">Encuentra y compra las mejores fotografías de tus eventos especiales</p>
+      <div class="user-stats" id="user-stats" style="display: none;">
+        <div class="row text-center">
+          <div class="col-4">
+            <h4 id="total-orders">0</h4>
+            <small>Pedidos</small>
+          </div>
+          <div class="col-4">
+            <h4 id="total-photos">0</h4>
+            <small>Fotos</small>
+          </div>
+          <div class="col-4">
+            <h4 id="total-spent">$0</h4>
+            <small>Gastado</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Events Section -->
+  <section class="events-section">
+    <div class="container">
+      <h2 class="section-title">Eventos de Fotografía</h2>
+      <div class="row" id="events-grid">
+        <!-- Events will be populated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Store Section -->
+  <section class="store-section">
+    <div class="container">
+      <h2 class="section-title">Nuestras Fotografías</h2>
+      
+      <!-- Event Filter -->
+      <div class="event-filter">
+        <button class="btn btn-outline-primary filter-btn active" onclick="filterProducts('all')">Todos los Eventos</button>
+        <button class="btn btn-outline-primary filter-btn" onclick="filterProducts('bodas')">Bodas Elegantes</button>
+        <button class="btn btn-outline-primary filter-btn" onclick="filterProducts('xv-anos')">Quinceañeras</button>
+        <button class="btn btn-outline-primary filter-btn" onclick="filterProducts('bautizos')">Bautizos</button>
+        <button class="btn btn-outline-primary filter-btn" onclick="filterProducts('graduaciones')">Graduaciones</button>
+        <button class="btn btn-outline-primary filter-btn" onclick="filterProducts('corporativos')">Corporativos</button>
+      </div>
+      
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="product-grid">
+        <!-- Products will be populated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h3 class="mb-0">Mi Carrito</h3>
+      <button class="btn-close btn-close-white" id="close-cart"></button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <div class="empty-cart">
+        <i class="bi bi-cart-x fs-1"></i>
+        <h4 class="mt-3">Tu carrito está vacío</h4>
+      </div>
+    </div>
+    <div class="cart-total">
+      <h4 class="d-flex justify-content-between"><span>Total:</span> <span id="cart-total">$0.00</span></h4>
+      <button class="btn checkout-btn mt-3" id="checkout-btn" disabled>
+        <i class="bi bi-credit-card"></i> Proceder al Pago
+      </button>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-person-circle"></i> Iniciar Sesión</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="login-form">
+            <div class="mb-3">
+              <label class="form-label">Usuario o Email</label>
+              <input type="text" class="form-control" id="login-user" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="login-password" required>
+            </div>
+            <div class="alert" id="login-alert" style="display: none;"></div>
+            <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-person-plus"></i> Crear Cuenta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="register-form">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="register-name" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Apellido</label>
+                <input type="text" class="form-control" id="register-lastname" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" id="register-email" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="register-password" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Teléfono</label>
+              <input type="tel" class="form-control" id="register-phone">
+            </div>
+            <div class="alert" id="register-alert" style="display: none;"></div>
+            <button type="submit" class="btn btn-primary w-100">Crear Cuenta</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Modal -->
+  <div class="modal fade" id="paymentModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-lock-fill"></i> Pago Seguro</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Métodos de Pago Disponibles:</label>
+            <div class="row">
+              <div class="col-4 text-center">
+                <div class="border rounded p-2 mb-2 payment-method" data-method="credit">
+                  <i class="bi bi-credit-card fs-2 text-primary"></i>
+                  <br><small>Tarjeta de Crédito</small>
+                </div>
+              </div>
+              <div class="col-4 text-center">
+                <div class="border rounded p-2 mb-2 payment-method" data-method="paypal">
+                  <i class="bi bi-paypal fs-2 text-info"></i>
+                  <br><small>PayPal</small>
+                </div>
+              </div>
+              <div class="col-4 text-center">
+                <div class="border rounded p-2 mb-2 payment-method" data-method="transfer">
+                  <i class="bi bi-bank fs-2 text-success"></i>
+                  <br><small>Transferencia</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <form id="payment-form">
+            <div id="credit-card-form">
+              <div class="mb-3">
+                <label class="form-label">Nombre del Titular</label>
+                <input type="text" class="form-control" id="card-holder" placeholder="Juan Pérez" required>
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label">Número de Tarjeta</label>
+                <input type="text" class="form-control" id="card-number" placeholder="---- ---- ---- ----" required>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Fecha de Expiración</label>
+                  <input type="text" class="form-control" id="expiry-date" placeholder="MM/AA" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">CVV</label>
+                  <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                </div>
+              </div>
+            </div>
+            
+            <div class="alert" id="payment-feedback" style="display: none;"></div>
+
+            <button type="submit" class="btn btn-primary w-100" id="pay-now-btn">
+              Pagar Ahora: $<span id="modal-total-amount">0.00</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmación de Pago -->
+  <div class="confirmation-message" id="confirmation-message">
+    <div class="confirmation-content">
+      <i class="bi bi-check-circle confirmation-icon"></i>
+      <h2>¡Pago Completado!</h2>
+      <p id="confirmation-details">Tu pago se ha procesado correctamente.</p>
+      <div class="confirmation-buttons">
+        <button class="btn btn-primary" onclick="closeConfirmation()">
+          <i class="bi bi-check"></i> Continuar Comprando
+        </button>
+        <button class="btn btn-outline-secondary" onclick="showOrders()">
+          <i class="bi bi-bag"></i> Ver Mis Pedidos
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Simulación de datos
+    let currentUser = null;
+    let cart = [];
+    let userStats = { orders: 0, photos: 0, spent: 0 };
+    
+    // Datos simulados de eventos y productos
+    const events = [
+      {
+        id: 1,
+        name: 'Bodas Elegantes 2024',
+        type: 'bodas',
+        image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&q=80',
+        description: 'Colección de fotografías de bodas elegantes capturando momentos únicos.',
+        date: '2024-06-15',
+        location: 'Jardín Botánico'
+      },
+      {
+        id: 2,
+        name: 'Quinceañeras Mágicas',
+        type: 'xv-anos',
+        image: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&q=80',
+        description: 'Momentos únicos de la celebración de los 15 años.',
+        date: '2024-08-20',
+        location: 'Salón Royal'
+      },
+      {
+        id: 3,
+        name: 'Bautizos Especiales',
+        type: 'bautizos',
+        image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=600&q=80',
+        description: 'Fotografías tiernas y emotivas de bautizos.',
+        date: '2024-04-10',
+        location: 'Iglesia San José'
+      },
+      {
+        id: 4,
+        name: 'Graduaciones Memorables',
+        type: 'graduaciones',
+        image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80',
+        description: 'El orgullo del logro académico capturado profesionalmente.',
+        date: '2024-07-05',
+        location: 'Universidad Nacional'
+      },
+      {
+        id: 5,
+        name: 'Eventos Corporativos Premium',
+        type: 'corporativos',
+        image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80',
+        description: 'Fotografía profesional para eventos empresariales.',
+        date: '2024-09-12',
+        location: 'Centro de Convenciones'
+      }
+    ];
+
+    // Generar productos para cada evento (15 por evento)
+    const generateProducts = () => {
+      const products = [];
+      let productId = 1;
+      
+      // Banco de imágenes reales organizadas por categoría de evento
+      const eventImageBank = {
+        'bodas': [
+          '1519225421980-715cb0215aed', // Boda 1
+          '1532712938310-34cb3762b094', // Boda 2
+          '1519671488599-70e095009b9f', // Boda 3
+          '1517849845537-4d257902454a', // Boda 4
+          '1515934751635-94d07f291efb', // Boda 5
+          '1519741497674-611481863552', // Boda 6
+          '1580276915064-906673b7ac06', // Boda 7
+          '1511795409839-1c63a1c080b9', // Boda 8
+          '1511795409839-1c63a1c080b8', // Boda 9
+          '1511795409839-1c63a1c080b7', // Boda 10
+          '1511795409839-1c63a1c080b6', // Boda 11
+          '1511795409839-1c63a1c080b5', // Boda 12
+          '1511795409839-1c63a1c080b4', // Boda 13
+          '1511795409839-1c63a1c080b3', // Boda 14
+          '1511795409839-1c63a1c080b2'  // Boda 15
+        ],
+        'xv-anos': [
+          '1576086213369-97a306d36557', // XV 1
+          '1529333169397-1b4853b34eac', // XV 2
+          '1518895949257-5c8ae7f1c4fe', // XV 3
+          '1518894788831-5fbbd07f291e', // XV 4
+          '1518894788831-5fbbd07f291f', // XV 5
+          '1518894788831-5fbbd07f2920', // XV 6
+          '1518894788831-5fbbd07f2921', // XV 7
+          '1518894788831-5fbbd07f2922', // XV 8
+          '1518894788831-5fbbd07f2923', // XV 9
+          '1518894788831-5fbbd07f2924', // XV 10
+          '1518894788831-5fbbd07f2925', // XV 11
+          '1518894788831-5fbbd07f2926', // XV 12
+          '1518894788831-5fbbd07f2927', // XV 13
+          '1518894788831-5fbbd07f2928', // XV 14
+          '1518894788831-5fbbd07f2929'  // XV 15
+        ],
+        'bautizos': [
+          '1464366400600-7168b8af9bc3', // Bautizo 1
+          '1518894788831-5fbbd07f2930', // Bautizo 2
+          '1518894788831-5fbbd07f2931', // Bautizo 3
+          '1518894788831-5fbbd07f2932', // Bautizo 4
+          '1518894788831-5fbbd07f2933', // Bautizo 5
+          '1518894788831-5fbbd07f2934', // Bautizo 6
+          '1518894788831-5fbbd07f2935', // Bautizo 7
+          '1518894788831-5fbbd07f2936', // Bautizo 8
+          '1518894788831-5fbbd07f2937', // Bautizo 9
+          '1518894788831-5fbbd07f2938', // Bautizo 10
+          '1518894788831-5fbbd07f2939', // Bautizo 11
+          '1518894788831-5fbbd07f2940', // Bautizo 12
+          '1518894788831-5fbbd07f2941', // Bautizo 13
+          '1518894788831-5fbbd07f2942', // Bautizo 14
+          '1518894788831-5fbbd07f2943'  // Bautizo 15
+        ],
+        'graduaciones': [
+          '1523050854058-8df90110c9f1', // Graduación 1
+          '1518894788831-5fbbd07f2944', // Graduación 2
+          '1518894788831-5fbbd07f2945', // Graduación 3
+          '1518894788831-5fbbd07f2946', // Graduación 4
+          '1518894788831-5fbbd07f2947', // Graduación 5
+          '1518894788831-5fbbd07f2948', // Graduación 6
+          '1518894788831-5fbbd07f2949', // Graduación 7
+          '1518894788831-5fbbd07f2950', // Graduación 8
+          '1518894788831-5fbbd07f2951', // Graduación 9
+          '1518894788831-5fbbd07f2952', // Graduación 10
+          '1518894788831-5fbbd07f2953', // Graduación 11
+          '1518894788831-5fbbd07f2954', // Graduación 12
+          '1518894788831-5fbbd07f2955', // Graduación 13
+          '1518894788831-5fbbd07f2956', // Graduación 14
+          '1518894788831-5fbbd07f2957'  // Graduación 15
+        ],
+        'corporativos': [
+          '1511578314322-379afb476865', // Corporativo 1
+          '1518894788831-5fbbd07f2958', // Corporativo 2
+          '1518894788831-5fbbd07f2959', // Corporativo 3
+          '1518894788831-5fbbd07f2960', // Corporativo 4
+          '1518894788831-5fbbd07f2961', // Corporativo 5
+          '1518894788831-5fbbd07f2962', // Corporativo 6
+          '1518894788831-5fbbd07f2963', // Corporativo 7
+          '1518894788831-5fbbd07f2964', // Corporativo 8
+          '1518894788831-5fbbd07f2965', // Corporativo 9
+          '1518894788831-5fbbd07f2966', // Corporativo 10
+          '1518894788831-5fbbd07f2967', // Corporativo 11
+          '1518894788831-5fbbd07f2968', // Corporativo 12
+          '1518894788831-5fbbd07f2969', // Corporativo 13
+          '1518894788831-5fbbd07f2970', // Corporativo 14
+          '1518894788831-5fbbd07f2971'  // Corporativo 15
+        ]
+      };
+
+      // Categorías disponibles
+      const categories = ['ceremonia', 'retratos', 'detalles', 'decoracion', 'ambiente'];
+      
+      events.forEach(event => {
+        const productTemplates = {
+          'bodas': [
+            'Momento del Sí Quiero', 'Intercambio de Anillos', 'Primer Baile', 'Entrada de la Novia',
+            'Bendición Nupcial', 'Ramo de Novia', 'Decoración del Altar', 'Brindis de los Novios',
+            'Sesión de Pareja', 'Familia Completa', 'Mesa de Honor', 'Corte del Pastel',
+            'Lanzamiento del Ramo', 'Salida de los Novios', 'Detalles de Alianzas'
+          ],
+          'xv-anos': [
+            'Vals de la Quinceañera', 'Misa de Acción de Gracias', 'Vestido de Princesa', 'Corona Real',
+            'Baile con Papá', 'Entrada Triunfal', 'Decoración Rosa Gold', 'Mesa de Dulces',
+            'Sesión con Damas', 'Familia en la Iglesia', 'Zapatos de Cristal', 'Pastel de 15 Años',
+            'Brindis Familiar', 'Última Muñeca', 'Baile Sorpresa'
+          ],
+          'bautizos': [
+            'Momento del Bautismo', 'Bendición del Sacerdote', 'Familia en el Altar', 'Padrinos y Ahijado',
+            'Vestido de Bautizo', 'Agua Bendita', 'Sonrisa del Bebé', 'Decoración de la Iglesia',
+            'Vela Bautismal', 'Abrazo Familiar', 'Mesa de Recuerdos', 'Pastel de Bautizo',
+            'Libro de Firmas', 'Abuelos Orgullosos', 'Salida de la Iglesia'
+          ],
+          'graduaciones': [
+            'Momento de la Graduación', 'Entrega de Diploma', 'Toga y Birrete', 'Familia Orgullosa',
+            'Lanzamiento de Birretes', 'Discurso del Rector', 'Compañeros de Clase', 'Auditorio Lleno',
+            'Abrazo de Felicitación', 'Medalla de Honor', 'Flores de Graduación', 'Selfie Grupal',
+            'Padres Emocionados', 'Diploma Enmarcado', 'Celebración Final'
+          ],
+          'corporativos': [
+            'Conferencia Magistral', 'Networking Empresarial', 'Mesa Directiva', 'Premiación Anual',
+            'Presentación de Productos', 'Brindis Corporativo', 'Equipo de Trabajo', 'Stand de Exhibición',
+            'CEO en Acción', 'Sala de Conferencias', 'Apretón de Manos', 'Tecnología en Uso',
+            'Cena de Gala', 'Logros Empresariales', 'Clausura del Evento'
+          ]
+        };
+        
+        const templates = productTemplates[event.type] || [];
+        const availableImages = eventImageBank[event.type] || eventImageBank['bodas']; // Fallback
+        
+        templates.forEach((title, index) => {
+          // Selección inteligente de imagen (cíclica pero con variedad)
+          const imgIndex = index % availableImages.length;
+          const imageId = availableImages[imgIndex];
+          
+          products.push({
+            id: productId++,
+            eventId: event.id,
+            eventType: event.type,
+            title: title,
+            description: `Fotografía profesional de ${title.toLowerCase()} capturada durante ${event.name}. Imagen de alta calidad disponible para descarga inmediata.`,
+            price: Math.floor(Math.random() * 200) + 50, // Precio entre $50 y $250
+            image: `https://images.unsplash.com/photo-${imageId}?auto=format&fit=crop&w=400&h=250&q=80`,
+            category: categories[Math.floor(Math.random() * categories.length)],
+            featured: index < 3, // Los primeros 3 productos son destacados
+            // Añadir atributos para mejor SEO y accesibilidad
+            altText: `Fotografía de ${title} en evento de ${event.name}`
+          });
+        });
+      });
+      
+      return products;
+    };
+
+    const products = generateProducts();
+    
+    // Funciones de simulación de usuario
+    function showLogin() {
+      new bootstrap.Modal(document.getElementById('loginModal')).show();
+    }
+    
+    function showRegister() {
+      new bootstrap.Modal(document.getElementById('registerModal')).show();
+    }
+    
+    function showProfile() {
+      alert(`Perfil de Usuario:\nNombre: ${currentUser?.name || 'No disponible'}\nEmail: ${currentUser?.email || 'No disponible'}\nPedidos realizados: ${userStats.orders}\nFotos compradas: ${userStats.photos}\nTotal gastado: $${userStats.spent.toFixed(2)}`);
+    }
+    
+    function showOrders() {
+      if (!currentUser) {
+        alert('Debes iniciar sesión para ver tus pedidos');
+        return;
+      }
+      alert(`Historial de Pedidos:\n\nPedidos realizados: ${userStats.orders}\nFotos compradas: ${userStats.photos}\nTotal gastado: $${userStats.spent.toFixed(2)}\n\nÚltimos pedidos:\n- Pedido #001: Bodas Elegantes (3 fotos) - $450.00\n- Pedido #002: Quinceañeras (2 fotos) - $300.00`);
+    }
+    
+    function login(event) {
+      event.preventDefault();
+      
+      const user = document.getElementById('login-user').value;
+      const password = document.getElementById('login-password').value;
+      
+      // Simulación de login
+      if (user && password) {
+        currentUser = {
+          name: user.includes('@') ? user.split('@')[0] : user,
+          email: user.includes('@') ? user : `${user}@example.com`,
+          id: Math.floor(Math.random() * 1000)
+        };
+        
+        updateUserInterface();
+        bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+        showNotification('¡Bienvenido! Has iniciado sesión correctamente', 'success');
+        
+        // Simular estadísticas del usuario
+        userStats = {
+          orders: Math.floor(Math.random() * 10) + 1,
+          photos: Math.floor(Math.random() * 25) + 5,
+          spent: Math.floor(Math.random() * 2000) + 200
+        };
+        updateUserStats();
+      } else {
+        showAlert('login-alert', 'danger', 'Por favor completa todos los campos');
+      }
+    }
+    
+    function register(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('register-name').value;
+      const lastname = document.getElementById('register-lastname').value;
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+      
+      if (name && lastname && email && password) {
+        currentUser = {
+          name: `${name} ${lastname}`,
+          email: email,
+          id: Math.floor(Math.random() * 1000)
+        };
+        
+        updateUserInterface();
+        bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
+        showNotification('¡Cuenta creada exitosamente! Bienvenido', 'success');
+        
+        // Usuario nuevo - estadísticas en cero
+        userStats = { orders: 0, photos: 0, spent: 0 };
+        updateUserStats();
+      } else {
+        showAlert('register-alert', 'danger', 'Por favor completa todos los campos obligatorios');
+      }
+    }
+    
+    function logout() {
+      currentUser = null;
+      cart = [];
+      userStats = { orders: 0, photos: 0, spent: 0 };
+      updateUserInterface();
+      updateCart();
+      showNotification('Has cerrado sesión correctamente', 'info');
+    }
+    
+    function updateUserInterface() {
+      const userName = document.getElementById('user-name');
+      const userEmail = document.getElementById('user-email');
+      const userStatsEl = document.getElementById('user-stats');
+      
+      if (currentUser) {
+        userName.textContent = currentUser.name;
+        userEmail.textContent = currentUser.email;
+        userStatsEl.style.display = 'block';
+      } else {
+        userName.textContent = 'Invitado';
+        userEmail.textContent = 'No autenticado';
+        userStatsEl.style.display = 'none';
+      }
+    }
+    
+    function updateUserStats() {
+      document.getElementById('total-orders').textContent = userStats.orders;
+      document.getElementById('total-photos').textContent = userStats.photos;
+      document.getElementById('total-spent').textContent = `$${userStats.spent.toFixed(0)}`;
+    }
+    
+    // Funciones del carrito
+    function addToCart(productId) {
+      if (!currentUser) {
+        showNotification('Debes iniciar sesión para agregar productos al carrito', 'warning');
+        showLogin();
+        return;
+      }
+      
+      const product = products.find(p => p.id === productId);
+      const existingItem = cart.find(item => item.id === productId);
+      
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+      
+      updateCart();
+      showNotification(`${product.title} agregado al carrito`, 'success');
+    }
+    
+    function removeFromCart(productId) {
+      cart = cart.filter(item => item.id !== productId);
+      updateCart();
+    }
+    
+    function updateQuantity(productId, change) {
+      const item = cart.find(item => item.id === productId);
+      if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+          removeFromCart(productId);
+        } else {
+          updateCart();
+        }
+      }
+    }
+    
+    function updateCart() {
+      const cartCount = document.getElementById('cart-count');
+      const cartItems = document.getElementById('cart-items');
+      const cartTotal = document.getElementById('cart-total');
+      const checkoutBtn = document.getElementById('checkout-btn');
+      
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      
+      cartCount.textContent = totalItems;
+      cartTotal.textContent = `$${totalPrice.toFixed(2)}`;
+      document.getElementById('modal-total-amount').textContent = totalPrice.toFixed(2);
+      
+      if (cart.length === 0) {
+        cartItems.innerHTML = `
+          <div class="empty-cart">
+            <i class="bi bi-cart-x fs-1"></i>
+            <h4 class="mt-3">Tu carrito está vacío</h4>
+          </div>
+        `;
+        checkoutBtn.disabled = true;
+      } else {
+        cartItems.innerHTML = cart.map(item => `
+          <div class="cart-item">
+            <img src="${item.image}" alt="${item.title}">
+            <div class="flex-grow-1">
+              <div>${item.title}</div>
+              <div class="text-muted">$${item.price.toFixed(2)} x ${item.quantity}</div>
+            </div>
+            <div class="d-flex align-items-center">
+              <button class="btn btn-sm btn-outline-secondary me-1" onclick="updateQuantity(${item.id}, -1)">-</button>
+              <span class="mx-2">${item.quantity}</span>
+              <button class="btn btn-sm btn-outline-secondary me-2" onclick="updateQuantity(${item.id}, 1)">+</button>
+              <button class="btn btn-sm btn-danger" onclick="removeFromCart(${item.id})">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        `).join('');
+        checkoutBtn.disabled = false;
+      }
+    }
+    
+    // Funciones de visualización
+    function renderEvents() {
+      const eventsGrid = document.getElementById('events-grid');
+      eventsGrid.innerHTML = events.map(event => `
+        <div class="col-md-6 col-lg-4">
+          <div class="event-card position-relative">
+            <div class="event-badge">${event.type.replace('-', ' ').toUpperCase()}</div>
+            <img src="${event.image}" alt="${event.name}" class="event-image">
+            <div class="event-info">
+              <h3 class="h5">${event.name}</h3>
+              <p class="text-muted">${event.description}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">
+                  <i class="bi bi-calendar"></i> ${new Date(event.date).toLocaleDateString('es-ES')}
+                  <br>
+                  <i class="bi bi-geo-alt"></i> ${event.location}
+                </small>
+                <button class="btn btn-outline-primary btn-sm" onclick="filterProducts('${event.type}')">
+                  Ver Fotos (15)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function renderProducts(filter = 'all') {
+      const productGrid = document.getElementById('product-grid');
+      const filteredProducts = filter === 'all' ? products : products.filter(p => p.eventType === filter);
+      
+      productGrid.innerHTML = filteredProducts.map(product => `
+        <div class="col">
+          <div class="product-card position-relative">
+            ${product.featured ? '<div class="event-badge">DESTACADO</div>' : ''}
+            <img src="${product.image}" 
+                 alt="${product.altText || product.title}" 
+                 class="product-image"
+                 loading="lazy"
+                 onerror="this.src='https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=400&q=80'">
+            <div class="product-info">
+              <h3 class="product-title h5">${product.title}</h3>
+              <p class="text-muted small">${product.description}</p>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-secondary">${product.category}</span>
+                <small class="text-muted">${events.find(e => e.id === product.eventId)?.name}</small>
+              </div>
+              <p class="product-price">$${product.price.toFixed(2)}</p>
+              <button class="add-to-cart" onclick="addToCart(${product.id})">
+                <i class="bi bi-cart-plus"></i> Añadir al Carrito
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function filterProducts(eventType) {
+      // Actualizar botones activos
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      renderProducts(eventType);
+      
+      // Scroll a la sección de productos
+      document.querySelector('.store-section').scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Funciones de pago mejoradas
+    function processPayment(event) {
+      event.preventDefault();
+      
+      if (!currentUser) {
+        showNotification('Debes iniciar sesión para realizar una compra', 'warning');
+        return;
+      }
+      
+      if (cart.length === 0) {
+        showNotification('Tu carrito está vacío', 'warning');
+        return;
+      }
+      
+      const payButton = document.getElementById('pay-now-btn');
+      const originalText = payButton.innerHTML;
+      const selectedMethod = document.querySelector('.payment-method.border-primary').dataset.method;
+      
+      payButton.disabled = true;
+      payButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Procesando...';
+      
+      // Validar campos según el método de pago
+      let isValid = true;
+      let validationMessage = '';
+      
+      if (selectedMethod === 'credit') {
+        const cardHolder = document.getElementById('card-holder').value;
+        const cardNumber = document.getElementById('card-number').value;
+        const expiryDate = document.getElementById('expiry-date').value;
+        const cvv = document.getElementById('cvv').value;
+        
+        if (!cardHolder || !cardNumber || !expiryDate || !cvv) {
+          isValid = false;
+          validationMessage = 'Por favor completa todos los campos de la tarjeta';
+        } else if (cardNumber.replace(/\s/g, '').length !== 16) {
+          isValid = false;
+          validationMessage = 'El número de tarjeta debe tener 16 dígitos';
+        } else if (!expiryDate.match(/^\d{2}\/\d{2}$/)) {
+          isValid = false;
+          validationMessage = 'La fecha de expiración debe tener el formato MM/AA';
+        } else if (cvv.length < 3) {
+          isValid = false;
+          validationMessage = 'El CVV debe tener al menos 3 dígitos';
+        }
+      }
+      
+      if (!isValid) {
+        showAlert('payment-feedback', 'danger', validationMessage);
+        payButton.disabled = false;
+        payButton.innerHTML = originalText;
+        return;
+      }
+      
+      // Simular procesamiento de pago
+      setTimeout(() => {
+        const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        
+        // Actualizar estadísticas del usuario
+        userStats.orders++;
+        userStats.photos += totalItems;
+        userStats.spent += totalAmount;
+        updateUserStats();
+        
+        // Limpiar carrito
+        cart = [];
+        updateCart();
+        
+        // Mostrar confirmación en el hero
+        showConfirmation(totalAmount, totalItems, selectedMethod);
+        
+        // Cerrar el modal de pago
+        bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+        
+        payButton.disabled = false;
+        payButton.innerHTML = originalText;
+      }, 2000);
+    }
+    
+    // Mostrar confirmación de pago en el hero
+    function showConfirmation(totalAmount, totalItems, paymentMethod) {
+      const methodNames = {
+        'credit': 'Tarjeta de Crédito',
+        'paypal': 'PayPal',
+        'transfer': 'Transferencia Bancaria'
+      };
+      
+      const confirmation = document.getElementById('confirmation-message');
+      const details = document.getElementById('confirmation-details');
+      
+      details.innerHTML = `
+        <p>Has comprado <strong>${totalItems} fotografías</strong> por un total de <strong>$${totalAmount.toFixed(2)}</strong></p>
+        <p>Método de pago: <strong>${methodNames[paymentMethod]}</strong></p>
+        <p class="text-success mt-3">¡Las fotografías están disponibles para descarga inmediata en tu perfil!</p>
+      `;
+      
+      confirmation.classList.add('show');
+    }
+    
+    // Cerrar la confirmación de pago
+    function closeConfirmation() {
+      document.getElementById('confirmation-message').classList.remove('show');
+    }
+    
+    // Funciones de utilidad
+    function showAlert(elementId, type, message) {
+      const alertEl = document.getElementById(elementId);
+      alertEl.className = `alert alert-${type}`;
+      alertEl.textContent = message;
+      alertEl.style.display = 'block';
+      
+      setTimeout(() => {
+        alertEl.style.display = 'none';
+      }, 5000);
+    }
+    
+    function showNotification(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.className = `alert alert-${type === 'error' ? 'danger' : type === 'warning' ? 'warning' : type === 'success' ? 'success' : 'info'} notification`;
+      notification.innerHTML = `
+        <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : type === 'error' ? 'x-circle' : 'info-circle'}"></i>
+        ${message}
+      `;
+      
+      document.body.appendChild(notification);
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.remove();
+      }, 4000);
+    }
+    
+    function toggleCart() {
+      const cartSidebar = document.getElementById('cart-sidebar');
+      const cartOverlay = document.getElementById('cart-overlay');
+      
+      cartSidebar.classList.toggle('open');
+      cartOverlay.classList.toggle('active');
+    }
+    
+    // Formateo de campos de pago
+    function formatCardNumber(input) {
+      let value = input.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+      let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+      input.value = formattedValue.substring(0, 19);
+    }
+    
+    function formatExpiryDate(input) {
+      let value = input.value.replace(/\D/g, '');
+      if (value.length >= 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+      }
+      input.value = value;
+    }
+    
+    function formatCVV(input) {
+      input.value = input.value.replace(/\D/g, '').substring(0, 4);
+    }
+    
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      // Renderizar contenido inicial
+      renderEvents();
+      renderProducts();
+      updateUserInterface();
+      
+      // Event listeners para formularios
+      document.getElementById('login-form').addEventListener('submit', login);
+      document.getElementById('register-form').addEventListener('submit', register);
+      document.getElementById('payment-form').addEventListener('submit', processPayment);
+      
+      // Event listeners para carrito
+      document.getElementById('cart-icon').addEventListener('click', toggleCart);
+      document.getElementById('close-cart').addEventListener('click', toggleCart);
+      document.getElementById('cart-overlay').addEventListener('click', toggleCart);
+      
+      // Event listener para checkout
+      document.getElementById('checkout-btn').addEventListener('click', function() {
+        if (!currentUser) {
+          showLogin();
+          return;
+        }
+        toggleCart();
+        new bootstrap.Modal(document.getElementById('paymentModal')).show();
+      });
+      
+      // Formateo de campos de pago
+      document.getElementById('card-number').addEventListener('input', function() {
+        formatCardNumber(this);
+      });
+      
+      document.getElementById('expiry-date').addEventListener('input', function() {
+        formatExpiryDate(this);
+      });
+      
+      document.getElementById('cvv').addEventListener('input', function() {
+        formatCVV(this);
+      });
+      
+      // Selección de método de pago
+      document.querySelectorAll('.payment-method').forEach(method => {
+        method.addEventListener('click', function() {
+          document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('border-primary'));
+          this.classList.add('border-primary');
+          
+          const methodType = this.dataset.method;
+          const creditCardForm = document.getElementById('credit-card-form');
+          
+          if (methodType === 'credit') {
+            creditCardForm.style.display = 'block';
+          } else {
+            creditCardForm.style.display = 'none';
+            showNotification(`Método de pago ${methodType === 'paypal' ? 'PayPal' : 'Transferencia Bancaria'} seleccionado`, 'info');
+          }
+        });
+      });
+      
+      // Seleccionar tarjeta de crédito por defecto
+      document.querySelector('.payment-method[data-method="credit"]').click();
+    });
+  </script>
+</body>
+</html>
