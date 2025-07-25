@@ -87,4 +87,4 @@ Rol para fotógrafos, editores u otros perfiles que colaboran en eventos.
 ---
 
 *Este documento forma parte de la documentación técnica del proyecto.*  
-*Última actualización: `{{Fecha del despliegue o revisión}}`
+*Última actualización: `{{24/07/2025}}`
