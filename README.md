@@ -36,7 +36,7 @@
 ├── uploads/             # Archivos subidos por los usuarios
 ├── logs/                # Logs de actividad y errores
 ├── vendor/              # Dependencias de Composer (autoloader, libs)
-
+``` 
 # 🔐 Credenciales de Acceso — Reminiscencia Photography
 
 A continuación se presentan las credenciales de prueba para acceder a los distintos paneles del sistema **Reminiscencia Photography**. Estas credenciales están diseñadas para ambientes de desarrollo o demostración.
